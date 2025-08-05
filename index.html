@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Financial Prompts</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Random Category Generator -->
+        <div class="evaluation-box">
+            <div class="box-header" onclick="toggleBox(this)">
+                <h2>Category Assignment</h2>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="box-content">
+                <div id="categoryDisplay" class="category-display">
+                    <div class="category-result">
+                        <h3>Loading...</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Prompt Difficulty Section -->
+        <div class="evaluation-box" id="reportSelectionSection" style="display: none;">
+            <div class="box-header" onclick="toggleBox(this)">
+                <h2>Report Selection</h2>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="box-content">
+                <p>How many reports will you be using?</p>
+                
+                <div class="dropdown-container">
+                    <select name="reportCount" id="reportCount">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+                        <option value="24">24</option>
+                        <option value="25">25</option>
+                        <option value="26">26</option>
+                        <option value="27">27</option>
+                        <option value="28">28</option>
+                        <option value="29">29</option>
+                        <option value="30">30</option>
+                        <option value="31">31</option>
+                        <option value="32">32</option>
+                        <option value="33">33</option>
+                        <option value="34">34</option>
+                        <option value="35">35</option>
+                        <option value="36">36</option>
+                        <option value="37">37</option>
+                        <option value="38">38</option>
+                        <option value="39">39</option>
+                        <option value="40">40</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dynamic Report Boxes Container -->
+        <div id="reportBoxesContainer"></div>
+
+        <!-- Create Financial Prompt Section -->
+        <div class="evaluation-box">
+            <div class="box-header" onclick="toggleBox(this)">
+                <h2>Create Financial Prompt</h2>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="box-content">
+                <p>Develop a realistic, verifiable prompt based on your chosen report(s).</p>
+                <div id="categoryReminder" class="category-reminder"></div>
+                <div class="prompt-input">
+                    <label for="financialPrompt">Financial Prompt:</label>
+                    <textarea id="financialPrompt" name="financialPrompt" rows="6" placeholder="Enter your financial prompt here..." required></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Correct Answer Section -->
+        <div class="evaluation-box">
+            <div class="box-header" onclick="toggleBox(this)">
+                <h2>Correct Answer</h2>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="box-content">
+                <p>What is the correct answer to your prompt?</p>
+                <div class="answer-input">
+                    <input type="text" id="correctAnswer" name="correctAnswer" placeholder="Enter the correct answer..." required>
+                </div>
+            </div>
+        </div>
+
+        <!-- Supporting Facts Section -->
+        <div class="evaluation-box">
+            <div class="box-header" onclick="toggleBox(this)">
+                <h2>Supporting Facts</h2>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="box-content">
+                <p>Enter the supporting facts that validate your answer.</p>
+                <div id="supportingFactsContainer"></div>
+                <button id="addFactBtn" class="add-fact-btn">Add Supporting Fact</button>
+            </div>
+        </div>
+
+        <!-- Reasoning Section -->
+        <div class="evaluation-box">
+            <div class="box-header" onclick="toggleBox(this)">
+                <h2>Reasoning</h2>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="box-content">
+                <p>Please provide your basic reasoning or calculation process. It's okay if this is brief for simple prompts, but make it as easy as possible for someone else to verify your answer.</p>
+                <div class="reasoning-input">
+                    <label for="reasoning">Reasoning:</label>
+                    <textarea id="reasoning" name="reasoning" rows="2" placeholder="Enter your reasoning or calculation process..." required></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Submit Section -->
+    <div class="submit-section">
+        <p class="review-message">Please take a moment to review and verify your work before submitting.</p>
+        <div id="validationErrors" class="validation-errors"></div>
+        <button id="submitBtn" class="submit-btn">Submit</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
