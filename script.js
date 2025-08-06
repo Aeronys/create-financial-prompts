@@ -67,7 +67,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Show/hide report selection based on category
         if (category.requiresMultipleReports) {
             reportSelectionSection.style.display = 'block';
-            createReportBoxes(parseInt(reportCountSelect.value));
+            // Set default value to 2 for Category C
+            reportCountSelect.value = '2';
+            createReportBoxes(2);
         } else {
             reportSelectionSection.style.display = 'none';
             createReportBoxes(1); // Always create 1 report for categories A and B
@@ -220,9 +222,13 @@ document.addEventListener('DOMContentLoaded', function() {
             let displayText = `Report #${index + 1}`;
             
             if (reportType && ticker) {
-                displayText += ` - ${reportType} ${ticker}`;
+                // Convert 10K to 10-K and 10Q to 10-Q
+                const formattedReportType = reportType === '10K' ? '10-K' : reportType === '10Q' ? '10-Q' : reportType;
+                displayText += ` - ${formattedReportType} ${ticker}`;
             } else if (reportType) {
-                displayText += ` - ${reportType}`;
+                // Convert 10K to 10-K and 10Q to 10-Q
+                const formattedReportType = reportType === '10K' ? '10-K' : reportType === '10Q' ? '10-Q' : reportType;
+                displayText += ` - ${formattedReportType}`;
             } else if (ticker) {
                 displayText += ` - ${ticker}`;
             }
@@ -317,6 +323,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <p>Direct Link to Report:</p>
                     <input type="url" name="reportLink${reportNumber}" id="reportLink${reportNumber}" placeholder="https://www.sec.gov/Archives/edgar/data/...">
                     <small>Open it as HTML first. The link must begin with https://www.sec.gov/Archives/edgar/data.</small>
+                    <div class="error-message" id="linkError${reportNumber}"></div>
                 </div>
                 <div>
                     <p>Date Published:</p>
@@ -342,6 +349,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
         dateInput.addEventListener('blur', function() {
             validateDate(this, errorDiv);
+        });
+
+        // Add event listener for link validation
+        const linkInput = box.querySelector(`#reportLink${reportNumber}`);
+        const linkErrorDiv = box.querySelector(`#linkError${reportNumber}`);
+        
+        linkInput.addEventListener('blur', function() {
+            validateLink(this, linkErrorDiv);
+        });
+
+        linkInput.addEventListener('input', function() {
+            validateLink(this, linkErrorDiv);
         });
 
         // Add event listeners for updating source dropdowns
@@ -391,6 +410,29 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    function validateLink(linkInput, errorDiv) {
+        const link = linkInput.value.trim();
+        
+        // Clear previous error
+        errorDiv.style.display = 'none';
+        linkInput.style.borderColor = '#ced4da';
+        linkInput.classList.remove('error');
+        
+        if (link) {
+            if (!link.includes('sec.gov/Archives/edgar/data')) {
+                errorDiv.textContent = 'Link must include sec.gov/Archives/edgar/data';
+                errorDiv.style.display = 'block';
+                linkInput.style.borderColor = '#dc3545';
+                linkInput.classList.add('error');
+                linkInput.setCustomValidity('Link must include sec.gov/Archives/edgar/data');
+            } else {
+                linkInput.setCustomValidity('');
+            }
+        } else {
+            linkInput.setCustomValidity('');
+        }
+    }
+
     // Submit button validation
     const submitBtn = document.getElementById('submitBtn');
     const validationErrors = document.getElementById('validationErrors');
@@ -436,6 +478,15 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!pdfInput.files || pdfInput.files.length === 0) {
                 showError(`#reportPdf${reportNumber}`, 'Please upload a PDF file');
                 errors.push(`Report ${reportNumber}: Please upload a PDF file`);
+            }
+
+            // Check direct link
+            const linkInput = box.querySelector(`#reportLink${reportNumber}`);
+            if (!linkInput.value.trim()) {
+                showError(`#reportLink${reportNumber}`, 'Please enter a direct link to the report');
+                errors.push(`Report ${reportNumber}: Please enter a direct link to the report`);
+            } else if (linkInput.classList.contains('error')) {
+                errors.push(`Report ${reportNumber}: Please fix the link error`);
             }
         });
 
@@ -503,8 +554,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         } else {
-            // All validations passed
-            alert('All fields are complete! Form is ready to submit.');
+            // All validations passed - show success message
+            const successMessage = document.createElement('div');
+            successMessage.className = 'validation-success';
+            successMessage.textContent = 'Submitted successfully!';
+            validationErrors.appendChild(successMessage);
         }
     });
 
@@ -547,11 +601,47 @@ document.addEventListener('DOMContentLoaded', function() {
         const errorMessages = document.querySelectorAll('.input-error-message');
         errorMessages.forEach(msg => msg.remove());
 
+        // Remove all success messages
+        const successMessages = document.querySelectorAll('.validation-success');
+        successMessages.forEach(msg => msg.remove());
+
         // Remove error styling from inputs
         const errorInputs = document.querySelectorAll('.input-error');
         errorInputs.forEach(input => {
             input.classList.remove('input-error');
             input.style.borderColor = '#ced4da';
         });
+    }
+
+    // Handle score radio button styling
+    function handleScoreRadioButtons() {
+        const scoreOptions = document.querySelectorAll('.score-option');
+        
+        scoreOptions.forEach(option => {
+            const radio = option.querySelector('input[type="radio"]');
+            const label = option.querySelector('.score-label');
+            
+            radio.addEventListener('change', function() {
+                // Remove selected styling from all options in the same group
+                const name = this.name;
+                const allOptionsInGroup = document.querySelectorAll(`input[name="${name}"]`);
+                allOptionsInGroup.forEach(radioInGroup => {
+                    const optionInGroup = radioInGroup.closest('.score-option');
+                    if (optionInGroup) {
+                        optionInGroup.style.backgroundColor = '';
+                    }
+                });
+                
+                // Add selected styling to current option
+                if (this.checked) {
+                    option.style.backgroundColor = '#e8f5e8';
+                }
+            });
+        });
+    }
+
+    // Initialize score radio buttons if they exist
+    if (document.querySelector('.score-options')) {
+        handleScoreRadioButtons();
     }
 }); 

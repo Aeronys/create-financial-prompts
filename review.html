@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Financial Prompts</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="review-page">
+    <div class="container">
+
+        <!-- Task Red Flags -->
+        <div class="evaluation-box">
+            <div class="box-header" onclick="toggleBox(this)">
+                <h2>Task Flags</h2>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="box-content">
+                <div class="checkbox-list">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="promptNotMatchCategory" name="promptNotMatchCategory">
+                        <label for="promptNotMatchCategory">🚩 Prompt did not match assigned category</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="opinionBased" name="opinionBased">
+                        <label for="opinionBased">🚩 Prompt/answer was opinion-based rather than entirely fact-based</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="incorrectAnswer" name="incorrectAnswer">
+                        <label for="incorrectAnswer">🚩 Worker-provided Correct Answer was not accurate</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="otherDocuments" name="otherDocuments">
+                        <label for="otherDocuments">🚩 Task included documents other than 10-Ks or 10-Qs</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="inaccurateData" name="inaccurateData">
+                        <label for="inaccurateData">Task included inaccurate data (Incorrect report type, date, link, etc.)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="insufficientSupportingData" name="insufficientSupportingData">
+                        <label for="insufficientSupportingData">Incorrect or insufficient supporting facts or reasoning</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="pdfsNotMatch" name="pdfsNotMatch">
+                        <label for="pdfsNotMatch">PDFs did not match associated reports</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="pdfsNotMatch" name="pdfsNotMatch">
+                        <label for="pdfsNotMatch">Task included PII</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="otherComment" name="otherComment">
+                        <label for="otherComment">Other (leave a review comment)</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Original Review Score -->
+        <div class="evaluation-box">
+            <div class="box-header" onclick="toggleBox(this)">
+                <h2>Original Review Score</h2>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="box-content">
+                <p>This score should represent the quality of the original work <strong>BEFORE</strong> your edits.</p>
+                <p>If you checked off any red flags above, rate as "Bad". For other issues, rate using your best judgment, based on the severity and frequency of the mistakes made. It's okay to rate as "Good" if only very minor mistakes were made.</p>
+                <div class="score-options">
+                    <label class="score-option">
+                        <input type="radio" name="originalScore" value="bad">
+                        <span class="score-label">🔴 Bad</span>
+                    </label>
+                    <label class="score-option">
+                        <input type="radio" name="originalScore" value="okay">
+                        <span class="score-label">🟡 Okay</span>
+                    </label>
+                    <label class="score-option">
+                        <input type="radio" name="originalScore" value="good">
+                        <span class="score-label">🟢 Good</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edited Review Score -->
+        <div class="evaluation-box">
+            <div class="box-header" onclick="toggleBox(this)">
+                <h2>Edited Review Score</h2>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="box-content">
+                <p>This score should represent the quality of the fixed work <strong>AFTER</strong> your edits.</p>
+                <p>This should be as good or better than the original score. You should be doing your best to make the task worthy of a "Good" score if it does not require significant rework.</p>
+                <div class="score-options">
+                    <label class="score-option">
+                        <input type="radio" name="editedScore" value="bad">
+                        <span class="score-label">🔴 Bad</span>
+                    </label>
+                    <label class="score-option">
+                        <input type="radio" name="editedScore" value="okay">
+                        <span class="score-label">🟡 Okay</span>
+                    </label>
+                    <label class="score-option">
+                        <input type="radio" name="editedScore" value="good">
+                        <span class="score-label">🟢 Good</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Optional Review Comment Section -->
+        <div class="evaluation-box">
+            <div class="box-header" onclick="toggleBox(this)">
+                <h2>[Optional] Review Comment</h2>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="box-content">
+                <p>Please leave a review comment if you rate this submission as "Okay" or "Bad", if you selected "Other (leave a review comment)" in the above checkbox question, or if you have any other comments you'd like to share.</p>
+                <div class="review-comment-input">
+                    <textarea id="reviewComment" name="reviewComment" rows="3"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
